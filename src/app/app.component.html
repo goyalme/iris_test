@@ -1,0 +1,35 @@
+<h1>IRIS Solution</h1>
+<table mat-table [dataSource]="groupDataSource" class="mat-elevation-z8 main-table">
+  <ng-container matColumnDef="groupName">
+    <th mat-header-cell *matHeaderCellDef> Group </th>
+    <td mat-cell *matCellDef="let group"> {{group.groupName}} </td>
+    <td mat-footer-cell *matFooterCellDef> Total </td>
+  </ng-container>
+  <ng-container matColumnDef="groupData">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let group">
+      <mat-table #statementTable [dataSource]="group.groupData">
+        <ng-container *ngFor="let groupCol of groupDataTableColumn; let colIndex = index" matColumnDef="{{groupCol}}">
+          <mat-header-cell *matHeaderCellDef>{{groupCol==='rowName'? 'Row': groupCol}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="rowCell">
+            <label *ngIf="groupCol=='rowName'">{{element[groupCol]}}</label>
+            <input *ngIf="groupCol!=='rowName'"  validateDecimal (change)="calcColumnTotal(groupCol,group)" class="number-input" [(ngModel)]="element[groupCol]">
+          </mat-cell>
+          <td mat-footer-cell *matFooterCellDef class="rowCell">
+            <label *ngIf="groupCol=='rowName'">{{group.columnTotal[groupCol]}}</label>
+
+            <input *ngIf="groupCol!=='rowName'"  [disabled]="true" class="number-input" [ngModel]="group.columnTotal[groupCol]">
+          </td>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="groupDataTableColumn"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: groupDataTableColumn;"></mat-row>
+      <mat-footer-row *matFooterRowDef="groupDataTableColumn"></mat-footer-row>
+      </mat-table>
+    </td>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="groupTableColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: groupTableColumns;"></mat-row>
+
+</table>
+
