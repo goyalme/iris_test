@@ -20,7 +20,7 @@ export class AppComponent {
   tableConfig = {
     groupNumber:4,
     columnNumber:17,
-    rowNumber:119
+    rowNumber:49
   }
 
   constructor(public appService:AppService){
